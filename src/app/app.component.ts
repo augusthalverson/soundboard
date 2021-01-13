@@ -13,6 +13,8 @@ export class AppComponent implements OnInit {
   title = 'soundboard';
 
   restartMode = true;
+  isPlaying = false;
+  isPlayingLabel = false;
 
   sounds: Sound[] = [
     {
@@ -134,7 +136,17 @@ export class AppComponent implements OnInit {
       newMode => {
         this.restartMode = newMode;
       }
-    )
+    );
+
+    this.killService.isSoundPlayingSubject.subscribe(
+      newState => {
+        this.isPlaying = newState;
+      }
+    );
+
+    setInterval(() => {
+      this.isPlayingLabel = !this.isPlayingLabel;
+    }, 800);
   }
 
   setRestartMode(mode: boolean): void {

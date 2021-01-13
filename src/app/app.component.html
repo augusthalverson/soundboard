@@ -38,7 +38,7 @@
     </div>
     <div class="setting-group">
       <span class="label">Kill</span>
-      <div (click)="killAll()" class="mode-button"><img src="../assets/icons/stop.png" alt=""></div>
+      <div [ngClass]="{'flashing': isPlaying, 'active': isPlayingLabel && isPlaying }" (click)="killAll()" class="mode-button"><img src="../assets/icons/stop.png" alt=""></div>
     </div>
   </div>
   <div class="buttons">

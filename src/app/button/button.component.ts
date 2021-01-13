@@ -48,13 +48,16 @@ export class ButtonComponent implements OnInit {
         this.audio.play();
       } else {
         this.isPlaying = false;
+        this.killService.stopPlaying(this.sound.name);
       }
     } else {
       this.audio.currentTime = 0;
       this.audio.play();
       this.isPlaying = true;
+      this.killService.addPlaying(this.sound.name);
       this.audio.onended = () => {
         this.isPlaying = false;
+        this.killService.stopPlaying(this.sound.name);
       };
     }
   }
