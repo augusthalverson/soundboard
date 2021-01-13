@@ -1,0 +1,13 @@
+<div
+    (click)="playSound()"
+    class="button"
+    [ngStyle]="{
+        backgroundColor: sound.color,
+        boxShadow: '0px 0px ' + (isPlaying? '20px' : '2px') + ' ' + sound.color,
+        filter: isPlaying ? 'none' : 'saturate(90%)',
+        color: sound.label}">
+    <div class="label" >
+        <span class="index" [ngStyle]="{backgroundColor: sound.label, color: sound.label === 'white' ? 'black' : 'white', mixBlendMode: sound.label === 'white' ? 'screen' : 'multiply'}">{{ index + 1 }}</span>
+        <span class="name">{{ sound.name }}</span></div>
+    <div *ngIf="!isPlaying" class="fade"></div>
+</div>
