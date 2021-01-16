@@ -155,5 +155,6 @@ export class AppComponent implements OnInit {
 
   killAll(): void {
     this.killService.kill();
+    this.isPlaying = false;
   }
 }
