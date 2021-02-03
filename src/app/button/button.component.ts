@@ -3,6 +3,8 @@ import { KillService } from '../kill-service/kill.service';
 import { Sound } from '../sound.model';
 import { ModeService } from '../mode-service/mode.service';
 import { LoopService } from '../loop-service/loop.service';
+import { VolumeService } from '../volume-service/volume.service';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-button',
@@ -22,7 +24,8 @@ export class ButtonComponent implements OnInit {
   constructor(
     private killService: KillService,
     private modeService: ModeService,
-    private loopService: LoopService
+    private loopService: LoopService,
+    private volumeService: VolumeService
   ) {}
 
   ngOnInit(): void {
@@ -44,6 +47,10 @@ export class ButtonComponent implements OnInit {
 
     this.loopService.loopSubject.subscribe((newMode) => {
       this.isLoopMode = newMode;
+    });
+
+    this.volumeService.volumeSubject.subscribe((newVolume: number) => {
+      this.audio.volume = newVolume;
     });
   }
 

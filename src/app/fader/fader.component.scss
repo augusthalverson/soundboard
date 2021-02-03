@@ -1,0 +1,89 @@
+.container {
+    position: relative;
+    height: 250px;
+
+    .ticks-left {
+      height: 200px;
+      width: 4px;
+      display: flex;
+      flex-direction: column;
+      transform: translateX(-5px) translateY(17px);
+      position: absolute;
+
+      .tick {
+        flex: 1;
+        height: 100%;
+        border-bottom: 1px solid rgb(89, 89, 99);
+        position: relative;
+        
+        span {
+          position: absolute;
+          color: rgb(89, 89, 99);
+          font-size: .8rem;
+          transform: translateX(-30px) translateY(14px);
+          width: 1.5rem;
+          text-align: right;
+
+          img {
+            height: 13px;
+          }
+        }
+      }
+    }
+
+    .ticks-right {
+      height: 200px;
+      width: 16px;
+      display: flex;
+      flex-direction: column;
+      transform: translateX(11px) translateY(17px);
+      position: absolute;
+
+      .tick {
+        flex: 1;
+        height: 100%;
+        border-bottom: 1px solid rgb(89, 89, 99);
+        position: relative;
+      }
+    }
+
+    .slider {
+        -webkit-appearance: none;  /* Override default CSS styles */
+        appearance: none;
+        height: 4px; 
+        width: 200px;
+        background-color: black;
+        outline: none;
+        border-radius: 2px;
+        -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+        transition: opacity .2s;
+        transform: rotate(90deg) translateX(125px);
+        position: absolute;
+        z-index: 3;
+      }
+      
+      /* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+      .slider::-webkit-slider-thumb {
+        -webkit-appearance: none; /* Override default look */
+        appearance: none;
+        background-image: url('../../assets/fader.png');
+        width: 30px;
+        height: 60px;
+        background-size: cover;
+        border-radius: 2px;
+        cursor:ns-resize;
+        transform: rotate(-90deg);
+      }
+      
+      .slider::-moz-range-thumb {
+        -webkit-appearance: none; /* Override default look */
+        appearance: none;
+        background-image: url('../../assets/fader.png');
+        width: 30px;
+        height: 60px;
+        background-size: cover;
+        border-radius: 2px;
+        cursor:ns-resize;
+        transform: rotate(-90deg);
+      }
+}

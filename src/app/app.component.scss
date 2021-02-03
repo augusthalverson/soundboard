@@ -50,27 +50,6 @@
         }
         margin-right: 2rem;
         .setting-group {
-            color: white;
-            width: 80px;
-            border: 2px solid rgb(195, 195, 195);
-            border-radius: 10px;
-
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            overflow: hidden;
-            margin-bottom: 1rem;
-
-            .label {
-                background-color: rgb(195, 195, 195);
-                color: black;
-                mix-blend-mode: screen;
-                text-transform: uppercase;
-                font-size: .7rem;
-                width: 100%;
-                text-align: center;
-                padding: 2px 0;
-            }
             .mode-button {
                 background-color: rgb(214, 174, 161);
                 width: 70%;

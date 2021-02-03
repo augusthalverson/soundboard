@@ -44,6 +44,7 @@
       <span class="label">Kill</span>
       <div [ngClass]="{'flashing': isPlaying, 'active': isPlayingLabel && isPlaying }" (click)="killAll()" class="mode-button"><img src="../assets/icons/stop.png" alt=""></div>
     </div>
+    <app-fader></app-fader>
   </div>
   <div class="buttons">
     <div class="button" *ngFor="let sound of sounds; let i = index">
