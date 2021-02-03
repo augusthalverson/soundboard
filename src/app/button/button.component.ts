@@ -54,6 +54,7 @@ export class ButtonComponent implements OnInit {
         this.audio.currentTime = 0;
         this.audio.play();
       } else {
+        this.loopService.setLooping(false);
         this.isPlaying = false;
         this.killService.stopPlaying(this.sound.name);
       }
