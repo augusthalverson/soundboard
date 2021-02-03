@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Sound } from './sound.model';
 import { KillService } from './kill-service/kill.service';
-import { ThrowStmt } from '@angular/compiler';
 import { ModeService } from './mode-service/mode.service';
+import { LoopService } from './loop-service/loop.service';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +13,7 @@ export class AppComponent implements OnInit {
   title = 'soundboard';
 
   restartMode = true;
+  loopMode = false;
   isPlaying = false;
   isPlayingLabel = false;
 
@@ -126,15 +127,26 @@ export class AppComponent implements OnInit {
       name: 'Gotcha Bitch',
       color: 'rgb(124,0,47)',
       label: 'white',
+    },
+    {
+      name: 'Tick',
+      color: 'rgb(183,0,43)',
+      label: 'black'
     }
   ];
 
-  constructor(private killService: KillService, private modeService: ModeService) {}
+  constructor(private killService: KillService, private modeService: ModeService, private loopService: LoopService) {}
 
   ngOnInit(): void {
     this.modeService.restartSubject.subscribe(
       newMode => {
         this.restartMode = newMode;
+      }
+    );
+
+    this.loopService.loopSubject.subscribe(
+      newMode => {
+        this.loopMode = newMode;
       }
     );
 
@@ -151,6 +163,10 @@ export class AppComponent implements OnInit {
 
   setRestartMode(mode: boolean): void {
     this.modeService.setRestartMode(mode);
+  }
+
+  setLoopMode(): void {
+    this.loopService.setLooping(!this.loopMode);
   }
 
   killAll(): void {

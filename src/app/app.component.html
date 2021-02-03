@@ -37,6 +37,10 @@
       <div (click)="setRestartMode(true)" class="mode-button" [ngClass]="{active: restartMode}"><img src="../assets/icons/repeat.png"></div>
     </div>
     <div class="setting-group">
+      <span class="label">Loop</span>
+      <div [ngClass]="{'active': loopMode }" (click)="setLoopMode()" class="mode-button"><img src="../assets/icons/loop.png" alt=""></div>
+    </div>
+    <div class="setting-group">
       <span class="label">Kill</span>
       <div [ngClass]="{'flashing': isPlaying, 'active': isPlayingLabel && isPlaying }" (click)="killAll()" class="mode-button"><img src="../assets/icons/stop.png" alt=""></div>
     </div>
