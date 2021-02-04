@@ -71,6 +71,14 @@ export class RemoteControlService {
   set isTxMode(mode: boolean) {
     this._isTxMode = mode;
     this.isTxModeSubscription.next(this._isTxMode);
+    if (this._isTxMode) {
+      console.log('send initial volume');
+      this.webSocketSubject.next({
+        type: 'volume',
+        pin: this.pin,
+        payload: this.volumeService.volumeSubject.getValue()
+      });
+    }
   }
 
   set isEnterPinMode(mode: boolean) {
