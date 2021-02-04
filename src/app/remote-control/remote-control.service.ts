@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
+import { WebSocketMessage } from './WebSocketMessage.model';
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
 import { environment } from 'src/environments/environment';
-import { SoundMessage } from './soundMessage.model';
+import { KillService } from '../kill-service/kill.service';
 
 @Injectable({
   providedIn: 'root',
@@ -25,18 +26,38 @@ export class RemoteControlService {
   private pin: number;
   pinSubscription = new Subject<number>();
 
-  webSocketSubject: WebSocketSubject<SoundMessage> = webSocket(environment.wsUri);
+  webSocketSubject: WebSocketSubject<WebSocketMessage> = webSocket(environment.wsUri);
 
   playSoundSubject = new Subject<number>();
 
-  constructor() {
-    this.webSocketSubject.subscribe((soundMessage) => {
+  constructor(private killService: KillService) {
+    this.webSocketSubject.subscribe(message => {
       if (this._isRxMode) {
-        if (soundMessage.pin === this.pin) {
-          this.playSoundSubject.next(soundMessage.index);
+        if (message.pin === this.pin) {
+          if (message.type === 'sound') {
+            this.playSoundSubject.next(message.payload.index);
+          } else if (message.type === 'mode') {
+            if (message.payload.setting === 'killAll') {
+              this.killService.kill();
+            }
+          }
         }
       }
     });
+
+    this.killService.killSubject.subscribe(
+      () => {
+        if (this._isTxMode) {
+          this.webSocketSubject.next({
+            type: 'mode',
+            pin: this.pin,
+            payload: {
+              setting: 'killAll'
+            }
+          });
+        }
+      }
+    );
   }
 
   set isRxMode(mode: boolean) {
@@ -56,8 +77,11 @@ export class RemoteControlService {
 
   playSound(id: number): void {
     this.webSocketSubject.next({
+      type: 'sound',
       pin: this.pin,
-      index: id,
+      payload: {
+        index: id,
+      }
     });
   }
 

@@ -15,12 +15,13 @@ export class KillService {
 
   public kill(): void {
     this.killSubject.next();
+    this.soundsPlaying = [];
+    this.isSoundPlayingSubject.next(false);
   }
 
   public addPlaying(name: string): void {
     this.soundsPlaying.push(name);
     this.isSoundPlayingSubject.next(true);
-    console.log(this.soundsPlaying);
   }
 
   public stopPlaying(name: string): void {
@@ -32,6 +33,5 @@ export class KillService {
     if (this.soundsPlaying.length === 0) {
       this.isSoundPlayingSubject.next(false);
     }
-    console.log(this.soundsPlaying);
   }
 }

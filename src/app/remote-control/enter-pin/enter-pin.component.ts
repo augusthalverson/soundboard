@@ -52,7 +52,7 @@ export class EnterPinComponent implements OnInit, AfterViewInit {
     this.pin = Number.parseInt(pinString, 10);
 
     if (this.inputs[id].nativeElement.value > 0) {
-      if (id < 3) {
+      if (id < 3 && id >= 0) {
         this.inputs[id + 1].nativeElement.focus();
       }
     }
