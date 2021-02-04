@@ -4,6 +4,7 @@ import { WebSocketMessage } from './WebSocketMessage.model';
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
 import { environment } from 'src/environments/environment';
 import { KillService } from '../kill-service/kill.service';
+import { VolumeService } from '../volume-service/volume.service';
 
 @Injectable({
   providedIn: 'root',
@@ -30,7 +31,9 @@ export class RemoteControlService {
 
   playSoundSubject = new Subject<number>();
 
-  constructor(private killService: KillService) {
+  volumeSubject
+
+  constructor(private killService: KillService, private volumeService: VolumeService) {
     this.webSocketSubject.subscribe(message => {
       if (this._isRxMode) {
         if (message.pin === this.pin) {
@@ -40,6 +43,8 @@ export class RemoteControlService {
             if (message.payload.setting === 'killAll') {
               this.killService.kill();
             }
+          } else if (message.type === 'volume') {
+            this.volumeService.volumeSubject.next(message.payload);
           }
         }
       }
@@ -88,5 +93,13 @@ export class RemoteControlService {
   setPin(pin: number): void {
     this.pin = pin;
     this.pinSubscription.next(this.pin);
+  }
+
+  setVolumeChange(value: number): void {
+    this.webSocketSubject.next({
+      type: 'volume',
+      pin: this.pin,
+      payload: value,
+    });
   }
 }
