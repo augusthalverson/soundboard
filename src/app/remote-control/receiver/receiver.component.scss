@@ -1,0 +1,35 @@
+.darken {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0,0,0,.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .label {
+        text-align: center;
+        h1 {
+            color: white;
+            font-weight: normal;
+        }
+        button {
+            background-color: rgb(125, 122, 149);
+            opacity: .25;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            backdrop-filter: blur(20px);
+            border-radius: 50px;
+            cursor: pointer;
+            color: white;
+            text-transform: uppercase;
+
+            &:hover {
+                opacity: .5;
+            }
+        }
+    }
+}

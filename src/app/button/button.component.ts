@@ -5,6 +5,8 @@ import { ModeService } from '../mode-service/mode.service';
 import { LoopService } from '../loop-service/loop.service';
 import { VolumeService } from '../volume-service/volume.service';
 import { ThrowStmt } from '@angular/compiler';
+import { RemoteControlService } from '../remote-control/remote-control.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-button',
@@ -20,12 +22,16 @@ export class ButtonComponent implements OnInit {
   isLoopMode = false;
   duration: string;
   restartMode = false;
+  isTxMode = false;
+
+  playSoundSubscription: Subscription;
 
   constructor(
     private killService: KillService,
     private modeService: ModeService,
     private loopService: LoopService,
-    private volumeService: VolumeService
+    private volumeService: VolumeService,
+    private remoteControlService: RemoteControlService
   ) {}
 
   ngOnInit(): void {
@@ -52,33 +58,58 @@ export class ButtonComponent implements OnInit {
     this.volumeService.volumeSubject.subscribe((newVolume: number) => {
       this.audio.volume = newVolume;
     });
+
+    this.remoteControlService.isTxModeSubscription.subscribe(
+      newTxMode => {
+        this.isTxMode = newTxMode;
+      }
+    );
+
+    this.remoteControlService.isRxModeSubscription.subscribe(
+      newRxMode => {
+        if (newRxMode) {
+          this.playSoundSubscription = this.remoteControlService.playSoundSubject.subscribe(
+            soundIndex => {
+              if (soundIndex === this.index) {
+                this.playSound();
+              }
+            }
+          )
+        }
+      }
+    )
   }
 
   playSound(): void {
-    if (this.isPlaying) {
-      this.audio.pause();
-      if (this.restartMode === true) {
-        this.audio.currentTime = 0;
-        this.audio.play();
-      } else {
-        this.loopService.setLooping(false);
-        this.isPlaying = false;
-        this.killService.stopPlaying(this.sound.name);
-      }
+    if (this.isTxMode) {
+      console.log(`clicked sound: ${this.index}`);
+      this.remoteControlService.playSound(this.index);
     } else {
-      this.audio.currentTime = 0;
-      this.audio.play();
-      this.isPlaying = true;
-      this.killService.addPlaying(this.sound.name);
-      this.audio.onended = () => {
-        if (this.isLoopMode) {
+      if (this.isPlaying) {
+        this.audio.pause();
+        if (this.restartMode === true) {
           this.audio.currentTime = 0;
           this.audio.play();
         } else {
+          this.loopService.setLooping(false);
           this.isPlaying = false;
           this.killService.stopPlaying(this.sound.name);
         }
-      };
+      } else {
+        this.audio.currentTime = 0;
+        this.audio.play();
+        this.isPlaying = true;
+        this.killService.addPlaying(this.sound.name);
+        this.audio.onended = () => {
+          if (this.isLoopMode) {
+            this.audio.currentTime = 0;
+            this.audio.play();
+          } else {
+            this.isPlaying = false;
+            this.killService.stopPlaying(this.sound.name);
+          }
+        };
+      }
     }
   }
 
