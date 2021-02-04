@@ -31,8 +31,6 @@ export class RemoteControlService {
 
   playSoundSubject = new Subject<number>();
 
-  volumeSubject
-
   constructor(private killService: KillService, private volumeService: VolumeService) {
     this.webSocketSubject.subscribe(message => {
       if (this._isRxMode) {
