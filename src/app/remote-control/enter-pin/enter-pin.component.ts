@@ -1,4 +1,11 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { convertPropertyBinding } from '@angular/compiler/src/compiler_util/expression_converter';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { RemoteControlService } from '../remote-control.service';
 
 @Component({
@@ -7,10 +14,14 @@ import { RemoteControlService } from '../remote-control.service';
   styleUrls: ['./enter-pin.component.scss'],
 })
 export class EnterPinComponent implements OnInit, AfterViewInit {
-  @ViewChild('input0', {static: false, read: ElementRef}) inputZero: ElementRef;
-  @ViewChild('input1', {static: false, read: ElementRef}) inputOne: ElementRef;
-  @ViewChild('input2', {static: false, read: ElementRef}) inputTwo: ElementRef;
-  @ViewChild('input3', {static: false, read: ElementRef}) inputThree: ElementRef;
+  @ViewChild('input0', { static: false, read: ElementRef })
+  inputZero: ElementRef;
+  @ViewChild('input1', { static: false, read: ElementRef })
+  inputOne: ElementRef;
+  @ViewChild('input2', { static: false, read: ElementRef })
+  inputTwo: ElementRef;
+  @ViewChild('input3', { static: false, read: ElementRef })
+  inputThree: ElementRef;
 
   inputs: ElementRef[] = [];
 
@@ -18,29 +29,46 @@ export class EnterPinComponent implements OnInit, AfterViewInit {
 
   constructor(private remoteControlService: RemoteControlService) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   ngAfterViewInit(): void {
-    this.inputs = [this.inputZero, this.inputOne, this.inputTwo, this.inputThree];
+    this.inputs = [
+      this.inputZero,
+      this.inputOne,
+      this.inputTwo,
+      this.inputThree,
+    ];
     this.inputZero.nativeElement.focus();
   }
 
   handleInputChange(id: number): void {
+    if (this.inputs[id].nativeElement.value === 'e') {
+      this.inputs[id].nativeElement.value = '';
+    }
     let pinString = '';
-    this.inputs.forEach(input => {
+    this.inputs.forEach((input) => {
       pinString += input.nativeElement.value;
     });
     this.pin = Number.parseInt(pinString, 10);
 
-    if (id < 3 && id >= 0) {
-      this.inputs[id + 1].nativeElement.focus();
+    if (this.inputs[id].nativeElement.value > 0) {
+      if (id < 3) {
+        this.inputs[id + 1].nativeElement.focus();
+      }
     }
 
     if (this.pin.toString().length === 4) {
       this.remoteControlService.setPin(this.pin);
       this.remoteControlService.isEnterPinMode = false;
       this.remoteControlService.isTxMode = true;
+    }
+  }
+
+  handleDelete(event: KeyboardEvent, id: number): void {
+    if (event.code === 'Backspace') {
+      if (id > 0) {
+        this.inputs[id - 1].nativeElement.focus();
+      }
     }
   }
 

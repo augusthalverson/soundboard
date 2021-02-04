@@ -23,6 +23,7 @@ export class RemoteControlService {
   );
 
   private pin: number;
+  pinSubscription = new Subject<number>();
 
   webSocketSubject: WebSocketSubject<SoundMessage> = webSocket(environment.wsUri);
 
@@ -62,5 +63,6 @@ export class RemoteControlService {
 
   setPin(pin: number): void {
     this.pin = pin;
+    this.pinSubscription.next(this.pin);
   }
 }

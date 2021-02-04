@@ -9,6 +9,7 @@ import { RemoteControlService } from '../remote-control.service';
 export class ControlsComponent implements OnInit {
 
   isTxMode = false;
+  pin: number;
 
   constructor(private remoteControlService: RemoteControlService) { }
 
@@ -16,6 +17,12 @@ export class ControlsComponent implements OnInit {
     this.remoteControlService.isTxModeSubscription.subscribe(
       newTxMode => {
         this.isTxMode = newTxMode;
+      }
+    );
+
+    this.remoteControlService.pinSubscription.subscribe(
+      newPin => {
+        this.pin = newPin;
       }
     );
   }
@@ -26,5 +33,13 @@ export class ControlsComponent implements OnInit {
 
   handleActivateTransmit(): void {
     this.remoteControlService.isEnterPinMode = true;
+  }
+
+  handleChangePin(): void {
+    this.remoteControlService.isEnterPinMode = true;
+  }
+
+  handleCancelTx(): void {
+    this.remoteControlService.isTxMode = false;
   }
 }
