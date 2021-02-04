@@ -25,6 +25,6 @@ export class ControlsComponent implements OnInit {
   }
 
   handleActivateTransmit(): void {
-    this.remoteControlService.isTxMode = true;
+    this.remoteControlService.isEnterPinMode = true;
   }
 }

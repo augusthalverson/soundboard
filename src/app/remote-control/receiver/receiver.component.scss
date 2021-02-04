@@ -8,6 +8,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 3;
 
     .label {
         text-align: center;
@@ -15,6 +16,25 @@
             color: white;
             font-weight: normal;
         }
+
+        small {
+            color: rgba(255, 255, 255, .5);
+        }
+        .pin {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
+
+            .pin-number {
+                background-color: rgba(255, 255, 255, .5);
+                padding: 1.5rem;
+                font-size: 2rem;
+                border-radius: 20px;
+                mix-blend-mode: screen;
+            }
+        }
+
         button {
             background-color: rgb(125, 122, 149);
             opacity: .25;

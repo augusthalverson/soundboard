@@ -69,8 +69,8 @@ export class ButtonComponent implements OnInit {
       newRxMode => {
         if (newRxMode) {
           this.playSoundSubscription = this.remoteControlService.playSoundSubject.subscribe(
-            soundIndex => {
-              if (soundIndex === this.index) {
+            sound => {
+              if (sound === this.index) {
                 this.playSound();
               }
             }
@@ -82,7 +82,6 @@ export class ButtonComponent implements OnInit {
 
   playSound(): void {
     if (this.isTxMode) {
-      console.log(`clicked sound: ${this.index}`);
       this.remoteControlService.playSound(this.index);
     } else {
       if (this.isPlaying) {

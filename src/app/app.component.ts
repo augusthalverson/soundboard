@@ -19,6 +19,7 @@ export class AppComponent implements OnInit {
   isPlaying = false;
   isPlayingLabel = false;
   isReceiverMode = false;
+  isEnterPinMode = true;
 
   sounds = soundsConfig;
 
@@ -49,6 +50,12 @@ export class AppComponent implements OnInit {
     this.remoteControlService.isRxModeSubscription.subscribe(
       (newReceiverMode) => {
         this.isReceiverMode = newReceiverMode;
+      }
+    );
+
+    this.remoteControlService.isEnterPinModeSubscription.subscribe(
+      newEnterPinMode => {
+        this.isEnterPinMode = newEnterPinMode;
       }
     );
   }

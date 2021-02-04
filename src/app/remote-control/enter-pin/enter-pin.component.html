@@ -1,0 +1,11 @@
+<div (click)="handleCancel()" class="darken">
+    <div class="container">
+        <h1>Enter the pin from the receiver:</h1>
+        <div class="pin">
+            <div class="enter-pin"><input #input0 (input)="handleInputChange(0)" type="number" name="" id="pin-input-0" maxlength="1" autofocus tabindex="-1"></div>
+            <div class="enter-pin"><input #input1 (input)="handleInputChange(1)" type="number" name="" id="pin-input-1" maxlength="1" tabindex="-1"></div>
+            <div class="enter-pin"><input #input2 (input)="handleInputChange(2)" type="number" name="" id="pin-input-2" maxlength="1" tabindex="-1"></div>
+            <div class="enter-pin"><input #input3 (input)="handleInputChange(3)" type="number" name="" id="pin-input-3" maxlength="1" tabindex="-1"></div>
+        </div>
+    </div>
+</div>

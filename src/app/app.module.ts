@@ -7,6 +7,7 @@ import { ButtonComponent } from './button/button.component';
 import { FaderComponent } from './fader/fader.component';
 import { ReceiverComponent } from './remote-control/receiver/receiver.component';
 import { ControlsComponent } from './remote-control/controls/controls.component';
+import { EnterPinComponent } from './remote-control/enter-pin/enter-pin.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { ControlsComponent } from './remote-control/controls/controls.component'
     ButtonComponent,
     FaderComponent,
     ReceiverComponent,
-    ControlsComponent
+    ControlsComponent,
+    EnterPinComponent
   ],
   imports: [
     BrowserModule,
