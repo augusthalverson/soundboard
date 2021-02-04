@@ -74,10 +74,10 @@ export class ButtonComponent implements OnInit {
                 this.playSound();
               }
             }
-          )
+          );
         }
       }
-    )
+    );
   }
 
   playSound(): void {

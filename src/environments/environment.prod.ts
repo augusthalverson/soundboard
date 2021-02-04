@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  wsUri: 'wss://soundboard-websocket.herokuapp.com/',
 };

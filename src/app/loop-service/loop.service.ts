@@ -11,7 +11,7 @@ export class LoopService {
 
   constructor() { }
 
-  public setLooping(shouldLoop: boolean) {
+  public setLooping(shouldLoop: boolean): void {
     this.isLooping = shouldLoop;
     this.loopSubject.next(this.isLooping);
   }

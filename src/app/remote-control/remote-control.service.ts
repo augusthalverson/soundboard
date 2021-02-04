@@ -7,9 +7,11 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class RemoteControlService {
+  // tslint:disable-next-line: variable-name
   private _isRxMode = false;
   isRxModeSubscription = new BehaviorSubject<boolean>(this._isRxMode);
 
+  // tslint:disable-next-line: variable-name
   private _isTxMode = false;
   isTxModeSubscription = new BehaviorSubject<boolean>(this._isTxMode);
 

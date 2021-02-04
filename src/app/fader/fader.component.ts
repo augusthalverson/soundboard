@@ -11,7 +11,7 @@ export class FaderComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  sliderChanged(value) {
+  sliderChanged(value): void {
     this.volumeService.volume = (100 - value) / 100;
   }
 }

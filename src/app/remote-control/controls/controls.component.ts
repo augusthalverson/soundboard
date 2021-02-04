@@ -17,7 +17,7 @@ export class ControlsComponent implements OnInit {
       newTxMode => {
         this.isTxMode = newTxMode;
       }
-    )
+    );
   }
 
   handleActivateReceive(): void {
