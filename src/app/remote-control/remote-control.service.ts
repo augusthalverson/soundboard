@@ -5,6 +5,8 @@ import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
 import { environment } from 'src/environments/environment';
 import { KillService } from '../kill-service/kill.service';
 import { VolumeService } from '../volume-service/volume.service';
+import { ModeService } from '../mode-service/mode.service';
+import { LoopService } from '../loop-service/loop.service';
 
 @Injectable({
   providedIn: 'root',
@@ -27,12 +29,19 @@ export class RemoteControlService {
   private pin: number;
   pinSubscription = new Subject<number>();
 
-  webSocketSubject: WebSocketSubject<WebSocketMessage> = webSocket(environment.wsUri);
+  webSocketSubject: WebSocketSubject<WebSocketMessage> = webSocket(
+    environment.wsUri
+  );
 
   playSoundSubject = new Subject<number>();
 
-  constructor(private killService: KillService, private volumeService: VolumeService) {
-    this.webSocketSubject.subscribe(message => {
+  constructor(
+    private killService: KillService,
+    private volumeService: VolumeService,
+    private modeService: ModeService,
+    private loopService: LoopService
+  ) {
+    this.webSocketSubject.subscribe((message) => {
       if (this._isRxMode) {
         if (message.pin === this.pin) {
           if (message.type === 'sound') {
@@ -40,6 +49,10 @@ export class RemoteControlService {
           } else if (message.type === 'mode') {
             if (message.payload.setting === 'killAll') {
               this.killService.kill();
+            } else if (message.payload.setting === 'restart') {
+              this.modeService.setRestartMode(message.payload.value);
+            } else if (message.payload.setting === 'loop') {
+              this.loopService.setLooping(message.payload.value);
             }
           } else if (message.type === 'volume') {
             this.volumeService.volumeSubject.next(message.payload);
@@ -48,14 +61,42 @@ export class RemoteControlService {
       }
     });
 
-    this.killService.killSubject.subscribe(
-      () => {
+    this.killService.killSubject.subscribe(() => {
+      if (this._isTxMode) {
+        this.webSocketSubject.next({
+          type: 'mode',
+          pin: this.pin,
+          payload: {
+            setting: 'killAll',
+          },
+        });
+      }
+    });
+
+    this.modeService.restartSubject.subscribe(
+      newRestartMode => {
         if (this._isTxMode) {
           this.webSocketSubject.next({
             type: 'mode',
             pin: this.pin,
             payload: {
-              setting: 'killAll'
+              setting: 'restart',
+              value: newRestartMode
+            }
+          });
+        }
+      }
+    );
+
+    this.loopService.loopSubject.subscribe(
+      newLoopMode => {
+        if (this._isTxMode) {
+          this.webSocketSubject.next({
+            type: 'mode',
+            pin: this.pin,
+            payload: {
+              setting: 'loop',
+              value: newLoopMode
             }
           });
         }
@@ -76,7 +117,7 @@ export class RemoteControlService {
       this.webSocketSubject.next({
         type: 'volume',
         pin: this.pin,
-        payload: this.volumeService.volumeSubject.getValue()
+        payload: this.volumeService.volumeSubject.getValue(),
       });
     }
   }
@@ -92,7 +133,7 @@ export class RemoteControlService {
       pin: this.pin,
       payload: {
         index: id,
-      }
+      },
     });
   }
 
