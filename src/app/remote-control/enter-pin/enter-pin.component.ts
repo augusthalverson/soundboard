@@ -7,6 +7,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { RemoteControlService } from '../remote-control.service';
+import { Pin } from '../types';
 
 @Component({
   selector: 'app-enter-pin',
@@ -25,7 +26,8 @@ export class EnterPinComponent implements OnInit, AfterViewInit {
 
   inputs: ElementRef[] = [];
 
-  pin: number;
+  pinNumber: number;
+  pin: Pin;
 
   constructor(private remoteControlService: RemoteControlService) {}
 
@@ -38,39 +40,61 @@ export class EnterPinComponent implements OnInit, AfterViewInit {
       this.inputTwo,
       this.inputThree,
     ];
+    // this.inputs.forEach((input) => {
+    //   this.setInputFilter(input.nativeElement, (value) => {
+    //     return /^\d$/.test(value); });
+    // });
     this.inputZero.nativeElement.focus();
   }
 
   handleInputChange(id: number): void {
-    if (this.inputs[id].nativeElement.value === 'e') {
-      this.inputs[id].nativeElement.value = '';
-    }
-    let pinString = '';
-    this.inputs.forEach((input) => {
-      pinString += input.nativeElement.value;
-    });
-    this.pin = Number.parseInt(pinString, 10);
-
-    if (this.inputs[id].nativeElement.value > 0) {
+    // if (this.inputs[id].nativeElement.value === 'e') {
+    //   this.inputs[id].nativeElement.value = '';
+    // }
+    // let pinString = '';
+    // this.inputs.forEach((input) => {
+    //   pinString += input.nativeElement.value;
+    // });
+    // // this.pin = Number.parseInt(pinString, 10);
+    // console.log(this.pinNumber);
+    // if (this.inputs[id].nativeElement.value > 0) {
+    //   if (id < 3 && id >= 0) {
+    //     this.inputs[id + 1].nativeElement.focus();
+    //   }
+    // }
+    // if (this.pinNumber.toString().length === 4) {
+    //   this.remoteControlService.setPin(this.pinNumber);
+    //   this.remoteControlService.isEnterPinMode = false;
+    //   this.remoteControlService.isTxMode = true;
+    //   console.log(this.pinNumber);
+    // }
+    if (this.inputs[id].nativeElement.value >= 0) {
       if (id < 3 && id >= 0) {
         this.inputs[id + 1].nativeElement.focus();
       }
     }
-
-    if (this.pin.toString().length === 4) {
-      this.remoteControlService.setPin(this.pin);
-      this.remoteControlService.isEnterPinMode = false;
-      this.remoteControlService.isTxMode = true;
-      console.log(this.pin);
-    }
   }
 
-  handleDelete(event: KeyboardEvent, id: number): void {
+  handleDelete(event: KeyboardEvent, id: number): boolean {
     if (event.code === 'Backspace') {
       if (id > 0) {
-        this.inputs[id - 1].nativeElement.focus();
+        if (id === 3) {
+          if (this.inputs[3].nativeElement.value === '') {
+            this.inputs[2].nativeElement.focus();
+          } else {
+            this.inputs[id - 1].nativeElement.focus();
+            this.inputs[id].nativeElement.value = '';
+          }
+        } else {
+          this.inputs[id].nativeElement.value = '';
+          this.inputs[id - 1].nativeElement.focus();
+        }
+      } else if (id === 0) {
+        this.inputs[id].nativeElement.value = '';
       }
+      return false;
     }
+    return true;
   }
 
   handleCancel(): void {
@@ -78,8 +102,35 @@ export class EnterPinComponent implements OnInit, AfterViewInit {
   }
 
   handleActivateTransmitMode(): void {
-    this.remoteControlService.setPin(this.pin);
+    this.remoteControlService.setPin(this.pinNumber);
     this.remoteControlService.isEnterPinMode = false;
     this.remoteControlService.isTxMode = true;
   }
+
+  //   // Restricts input for the given textbox to the given inputFilter.
+  //   setInputFilter(input: HTMLInputElement, inputFilter): void {
+  //     [
+  //       'input',
+  //       'keydown',
+  //       'keyup',
+  //       'mousedown',
+  //       'mouseup',
+  //       'select',
+  //       'contextmenu',
+  //       'drop',
+  //     ].forEach((event) => {
+  //       input.addEventListener(event, () => {
+  //         if (inputFilter(input.value)) {
+  //           input.oldValue = input.value;
+  //           input.oldSelectionStart = input.selectionStart;
+  //           input.oldSelectionEnd = input.selectionEnd;
+  //         } else if (input.hasOwnProperty('oldValue')) {
+  //           input.value = input.oldValue;
+  //           input.setSelectionRange(input.oldSelectionStart, input.oldSelectionEnd);
+  //         } else {
+  //           input.value = '';
+  //         }
+  //       });
+  //     });
+  //   }
 }
