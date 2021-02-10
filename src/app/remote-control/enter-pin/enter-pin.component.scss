@@ -53,4 +53,35 @@
             }
         }
     }
+
+    .button-tray {
+        display: flex;
+        justify-content: center;
+    }
+
+    button {
+        background-color: rgb(125, 122, 149);
+        opacity: .25;
+        border: none;
+        padding: 1rem 2rem;
+        font-size: 1rem;
+        backdrop-filter: blur(20px);
+        border-radius: 50px;
+        cursor: pointer;
+        color: white;
+        text-transform: uppercase;
+        margin-top: 2rem;
+
+        &:hover {
+            opacity: .5;
+        }
+
+        &:last-of-type {
+            margin-left: 1rem;
+        }
+
+        &#primary {
+            opacity: .5;
+        }
+    }
 }

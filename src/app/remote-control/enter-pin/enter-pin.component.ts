@@ -61,6 +61,7 @@ export class EnterPinComponent implements OnInit, AfterViewInit {
       this.remoteControlService.setPin(this.pin);
       this.remoteControlService.isEnterPinMode = false;
       this.remoteControlService.isTxMode = true;
+      console.log(this.pin);
     }
   }
 
@@ -74,5 +75,11 @@ export class EnterPinComponent implements OnInit, AfterViewInit {
 
   handleCancel(): void {
     this.remoteControlService.isEnterPinMode = false;
+  }
+
+  handleActivateTransmitMode(): void {
+    this.remoteControlService.setPin(this.pin);
+    this.remoteControlService.isEnterPinMode = false;
+    this.remoteControlService.isTxMode = true;
   }
 }

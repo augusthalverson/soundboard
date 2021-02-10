@@ -43,6 +43,7 @@ export class RemoteControlService {
   ) {
     this.webSocketSubject.subscribe((message) => {
       if (this._isRxMode) {
+        console.log(message);
         if (message.pin === this.pin) {
           if (message.type === 'sound') {
             this.playSoundSubject.next(message.payload.index);
@@ -113,7 +114,6 @@ export class RemoteControlService {
     this._isTxMode = mode;
     this.isTxModeSubscription.next(this._isTxMode);
     if (this._isTxMode) {
-      console.log('send initial volume');
       this.webSocketSubject.next({
         type: 'volume',
         pin: this.pin,
