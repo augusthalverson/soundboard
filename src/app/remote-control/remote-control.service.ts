@@ -26,12 +26,21 @@ export class RemoteControlService {
     this._isEnterPinMode
   );
 
+  // tslint:disable-next-line: variable-name
+  private _isConnected = false;
+  isConnectedSubscription = new BehaviorSubject<boolean>(this._isConnected);
+
   private pin: number;
   pinSubscription = new Subject<number>();
 
-  webSocketSubject: WebSocketSubject<WebSocketMessage> = webSocket(
-    environment.wsUri
-  );
+  webSocketSubject: WebSocketSubject<WebSocketMessage> = webSocket({
+    url: environment.wsUri,
+    openObserver: {
+      next: (value) => {
+        this.isConnected = value.type === 'open';
+      },
+    },
+  });
 
   playSoundSubject = new Subject<number>();
 
@@ -74,35 +83,31 @@ export class RemoteControlService {
       }
     });
 
-    this.modeService.restartSubject.subscribe(
-      newRestartMode => {
-        if (this._isTxMode) {
-          this.webSocketSubject.next({
-            type: 'mode',
-            pin: this.pin,
-            payload: {
-              setting: 'restart',
-              value: newRestartMode
-            }
-          });
-        }
+    this.modeService.restartSubject.subscribe((newRestartMode) => {
+      if (this._isTxMode) {
+        this.webSocketSubject.next({
+          type: 'mode',
+          pin: this.pin,
+          payload: {
+            setting: 'restart',
+            value: newRestartMode,
+          },
+        });
       }
-    );
+    });
 
-    this.loopService.loopSubject.subscribe(
-      newLoopMode => {
-        if (this._isTxMode) {
-          this.webSocketSubject.next({
-            type: 'mode',
-            pin: this.pin,
-            payload: {
-              setting: 'loop',
-              value: newLoopMode
-            }
-          });
-        }
+    this.loopService.loopSubject.subscribe((newLoopMode) => {
+      if (this._isTxMode) {
+        this.webSocketSubject.next({
+          type: 'mode',
+          pin: this.pin,
+          payload: {
+            setting: 'loop',
+            value: newLoopMode,
+          },
+        });
       }
-    );
+    });
   }
 
   set isRxMode(mode: boolean) {
@@ -125,6 +130,11 @@ export class RemoteControlService {
   set isEnterPinMode(mode: boolean) {
     this._isEnterPinMode = mode;
     this.isEnterPinModeSubscription.next(this._isEnterPinMode);
+  }
+
+  set isConnected(mode: boolean) {
+    this._isConnected = mode;
+    this.isConnectedSubscription.next(this._isConnected);
   }
 
   playSound(id: number): void {

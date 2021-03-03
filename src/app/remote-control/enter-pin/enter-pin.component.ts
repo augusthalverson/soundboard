@@ -1,4 +1,3 @@
-import { convertPropertyBinding } from '@angular/compiler/src/compiler_util/expression_converter';
 import {
   AfterViewInit,
   Component,
@@ -7,7 +6,6 @@ import {
   ViewChild,
 } from '@angular/core';
 import { RemoteControlService } from '../remote-control.service';
-import { Pin } from '../types';
 
 @Component({
   selector: 'app-enter-pin',
@@ -27,7 +25,7 @@ export class EnterPinComponent implements OnInit, AfterViewInit {
   inputs: ElementRef[] = [];
 
   pinNumber: number;
-  pin: Pin;
+  pin: string;
 
   constructor(private remoteControlService: RemoteControlService) {}
 
@@ -48,20 +46,17 @@ export class EnterPinComponent implements OnInit, AfterViewInit {
   }
 
   handleInputChange(id: number): void {
-    // if (this.inputs[id].nativeElement.value === 'e') {
-    //   this.inputs[id].nativeElement.value = '';
-    // }
-    // let pinString = '';
-    // this.inputs.forEach((input) => {
-    //   pinString += input.nativeElement.value;
-    // });
-    // // this.pin = Number.parseInt(pinString, 10);
-    // console.log(this.pinNumber);
-    // if (this.inputs[id].nativeElement.value > 0) {
-    //   if (id < 3 && id >= 0) {
-    //     this.inputs[id + 1].nativeElement.focus();
-    //   }
-    // }
+    // Don't allow "e"
+    this.pin = '';
+    this.inputs.forEach((input) => {
+      this.pin += input.nativeElement.value;
+    });
+    console.log(this.pin);
+    if (this.inputs[id].nativeElement.value.length > 0) {
+      if (id < 3 && id >= 0) {
+        this.inputs[id + 1].nativeElement.focus();
+      }
+    }
     // if (this.pinNumber.toString().length === 4) {
     //   this.remoteControlService.setPin(this.pinNumber);
     //   this.remoteControlService.isEnterPinMode = false;

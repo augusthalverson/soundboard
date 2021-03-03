@@ -112,12 +112,12 @@ const soundsConfig: Sound[] = [
     label: 'white',
   },
   {
-    name: 'Tick',
+    name: 'Buzzer',
     color: 'rgb(183,0,43)',
     label: 'black',
   },
   {
-    name: 'Buzzer',
+    name: 'Nicks Music Picks Theme',
     color: 'rgb(252,62,40)',
     label: 'black'
   }

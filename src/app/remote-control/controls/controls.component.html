@@ -1,7 +1,12 @@
-<div [ngClass]="{'controls': true, 'transmit-mode': isTxMode}">
-    <span *ngIf="isTxMode">You are transmitting</span>
-    <button *ngIf="isTxMode" class="bubble" (click)="handleChangePin()">PIN: {{ pin }}</button>
-    <button *ngIf="isTxMode" class="bubble" (click)="handleCancelTx()">DISMISS</button>
-    <button *ngIf="!isTxMode" class="bubble" (click)="handleActivateTransmit()">Tx</button>
-    <button *ngIf="!isTxMode" class="bubble" (click)="handleActivateReceive()">Rx</button>
+<div class="tray">
+    <div class="server-status">
+        {{ isConnected ? 'Connected' : 'Not Connected' }}
+    </div>
+    <div [ngClass]="{'controls': true, 'transmit-mode': isTxMode}">
+        <span *ngIf="isTxMode">You are transmitting</span>
+        <button *ngIf="isTxMode" class="bubble" (click)="handleChangePin()">PIN: {{ pin }}</button>
+        <button *ngIf="isTxMode" class="bubble" (click)="handleCancelTx()">DISMISS</button>
+        <button *ngIf="!isTxMode" class="bubble" (click)="handleActivateTransmit()">Tx</button>
+        <button *ngIf="!isTxMode" class="bubble" (click)="handleActivateReceive()">Rx</button>
+    </div>
 </div>

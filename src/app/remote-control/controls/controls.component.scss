@@ -1,41 +1,49 @@
-.controls {
-    position: absolute;
-    top: .5rem;
-    right: .5rem;
-    z-index: 2;
-    border-radius: 50px;
-    padding-left: .5rem;
-    padding: .5rem;
-
-    &.transmit-mode {
-        background-color: rgb(124,0,47);
-    }
-    
-    span {
-        color: black;
-        text-transform: uppercase;
-        opacity: .5;
-        mix-blend-mode: overlay;
-        padding: 1rem;
-    }
-
-    .bubble {
-        background-color: rgb(125, 122, 149);
-        opacity: .5;
-        padding: .5rem 1rem;
-        border: none;
-        font-size: .8rem;
-        border-radius: 50px;
-        cursor: pointer;
+.tray {
+    .server-status {
         color: white;
-        text-transform: uppercase;
-        margin-left: .5rem;
-
+        opacity: .8;
+        
     }
 
-    button {
-        &:hover {
+    .controls {
+        position: absolute;
+        top: .5rem;
+        right: .5rem;
+        z-index: 2;
+        border-radius: 50px;
+        padding-left: .5rem;
+        padding: .5rem;
+
+        &.transmit-mode {
+            background-color: rgb(124,0,47);
+        }
+        
+        span {
+            color: black;
+            text-transform: uppercase;
             opacity: .5;
+            mix-blend-mode: overlay;
+            padding: 1rem;
+        }
+
+        .bubble {
+            background-color: rgb(125, 122, 149);
+            opacity: .5;
+            padding: .5rem 1rem;
+            border: none;
+            font-size: .8rem;
+            border-radius: 50px;
+            cursor: pointer;
+            color: white;
+            text-transform: uppercase;
+            margin-left: .5rem;
+
+        }
+
+        button {
+            &:hover {
+                opacity: .5;
+            }
         }
     }
 }
