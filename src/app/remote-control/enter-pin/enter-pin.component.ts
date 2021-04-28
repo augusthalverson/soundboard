@@ -51,7 +51,7 @@ export class EnterPinComponent implements OnInit, AfterViewInit {
     this.inputs.forEach((input) => {
       this.pin += input.nativeElement.value;
     });
-    console.log(this.pin);
+
     if (this.inputs[id].nativeElement.value.length > 0) {
       if (id < 3 && id >= 0) {
         this.inputs[id + 1].nativeElement.focus();
