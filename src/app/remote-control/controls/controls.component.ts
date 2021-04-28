@@ -9,7 +9,7 @@ import { RemoteControlService } from '../remote-control.service';
 export class ControlsComponent implements OnInit {
   isConnected = false;
   isTxMode = false;
-  pin: number;
+  pin: string;
 
   constructor(private remoteControlService: RemoteControlService) {}
 

@@ -30,8 +30,8 @@ export class RemoteControlService {
   private _isConnected = false;
   isConnectedSubscription = new BehaviorSubject<boolean>(this._isConnected);
 
-  private pin: number;
-  pinSubscription = new Subject<number>();
+  private pin: string;
+  pinSubscription = new Subject<string>();
 
   webSocketSubject: WebSocketSubject<WebSocketMessage> = webSocket({
     url: environment.wsUri,
@@ -155,7 +155,7 @@ export class RemoteControlService {
     });
   }
 
-  setPin(pin: number): void {
+  setPin(pin: string): void {
     this.pin = pin;
     this.pinSubscription.next(this.pin);
   }

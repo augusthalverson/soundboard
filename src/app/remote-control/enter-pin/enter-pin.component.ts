@@ -58,7 +58,7 @@ export class EnterPinComponent implements OnInit, AfterViewInit {
       }
     }
     if (this.pin.toString().length === 4) {
-      this.remoteControlService.setPin(Number.parseInt(this.pin, 10));
+      this.remoteControlService.setPin(this.pin);
       this.remoteControlService.isEnterPinMode = false;
       this.remoteControlService.isTxMode = true;
     }
@@ -96,7 +96,7 @@ export class EnterPinComponent implements OnInit, AfterViewInit {
   }
 
   handleActivateTransmitMode(): void {
-    this.remoteControlService.setPin(this.pinNumber);
+    this.remoteControlService.setPin(this.pin);
     this.remoteControlService.isEnterPinMode = false;
     this.remoteControlService.isTxMode = true;
   }

@@ -15,7 +15,7 @@ export class ReceiverComponent implements OnInit {
   pinNumberThree: number;
   pinNumberFour: number;
 
-  pin: number;
+  pin: string;
 
   ngOnInit(): void {
     this.pinNumberOne = Math.floor(Math.random() * 10);
@@ -23,11 +23,11 @@ export class ReceiverComponent implements OnInit {
     this.pinNumberThree = Math.floor(Math.random() * 10);
     this.pinNumberFour = Math.floor(Math.random() * 10);
 
-    this.pin = Number.parseInt(
+    this.pin = 
       this.pinNumberOne.toString() +
       this.pinNumberTwo.toString() +
       this.pinNumberThree.toString() +
-      this.pinNumberFour.toString(), 10);
+      this.pinNumberFour.toString();
 
     this.remoteControlService.setPin(this.pin);
   }
