@@ -138,6 +138,14 @@ export class RemoteControlService {
   }
 
   playSound(id: number): void {
+    console.log(this.pin);
+    console.log({
+      type: 'sound',
+      pin: this.pin,
+      payload: {
+        index: id,
+      },
+    });
     this.webSocketSubject.next({
       type: 'sound',
       pin: this.pin,

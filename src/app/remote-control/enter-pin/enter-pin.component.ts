@@ -57,12 +57,11 @@ export class EnterPinComponent implements OnInit, AfterViewInit {
         this.inputs[id + 1].nativeElement.focus();
       }
     }
-    // if (this.pinNumber.toString().length === 4) {
-    //   this.remoteControlService.setPin(this.pinNumber);
-    //   this.remoteControlService.isEnterPinMode = false;
-    //   this.remoteControlService.isTxMode = true;
-    //   console.log(this.pinNumber);
-    // }
+    if (this.pin.toString().length === 4) {
+      this.remoteControlService.setPin(Number.parseInt(this.pin, 10));
+      this.remoteControlService.isEnterPinMode = false;
+      this.remoteControlService.isTxMode = true;
+    }
     if (this.inputs[id].nativeElement.value >= 0) {
       if (id < 3 && id >= 0) {
         this.inputs[id + 1].nativeElement.focus();
