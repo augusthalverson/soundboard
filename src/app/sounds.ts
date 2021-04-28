@@ -97,7 +97,7 @@ const soundsConfig: Sound[] = [
     label: 'black',
   },
   {
-    name: 'John Cena',
+    name: 'Segue',
     color: 'rgb(254,184,8)',
     label: 'black',
   },
