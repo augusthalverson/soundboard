@@ -108,6 +108,14 @@ export class RemoteControlService {
         });
       }
     });
+
+    setInterval(() => {
+      this.webSocketSubject.next(
+        {
+          type: 'ping',
+        },
+      );
+    }, 30000);
   }
 
   set isRxMode(mode: boolean) {

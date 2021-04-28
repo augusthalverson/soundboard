@@ -1,5 +1,5 @@
 export interface WebSocketMessage {
-    type: 'sound' | 'volume' | 'mode';
-    pin: string;
-    payload: any;
+    type: 'sound' | 'volume' | 'mode' | 'ping';
+    pin?: string;
+    payload?: any;
 }
