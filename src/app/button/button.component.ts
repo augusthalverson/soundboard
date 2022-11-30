@@ -59,25 +59,20 @@ export class ButtonComponent implements OnInit {
       this.audio.volume = newVolume;
     });
 
-    this.remoteControlService.isTxModeSubscription.subscribe(
-      newTxMode => {
-        this.isTxMode = newTxMode;
-      }
-    );
+    this.remoteControlService.isTxModeSubscription.subscribe((newTxMode) => {
+      this.isTxMode = newTxMode;
+    });
 
-    this.remoteControlService.isRxModeSubscription.subscribe(
-      newRxMode => {
-        if (newRxMode) {
-          this.playSoundSubscription = this.remoteControlService.playSoundSubject.subscribe(
-            sound => {
-              if (sound === this.index) {
-                this.playSound();
-              }
+    this.remoteControlService.isRxModeSubscription.subscribe((newRxMode) => {
+      if (newRxMode) {
+        this.playSoundSubscription =
+          this.remoteControlService.playSoundSubject.subscribe((sound) => {
+            if (sound === this.index) {
+              this.playSound();
             }
-          );
-        }
+          });
       }
-    );
+    });
   }
 
   playSound(): void {
